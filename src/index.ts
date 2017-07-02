@@ -37,11 +37,12 @@ app.post(`/${settings.botToken}`, (req, res) => {
 app.listen(settings.port);
 
 const users = new Users();
-users.find({}, (error, results) => {
+users.findAll((error, allUsers) => {
     if (error) {
         throw new Error(error);
     }
-    results.forEach(user => {
+    console.log(allUsers.map(u => u.username));
+    allUsers.forEach(user => {
         const gitHubNotifications = new GitHubNotifications(user.username, user.token);
         gitHubNotifications.subscribe(user.username, user.token)
             .on('notification', notification => bot.sendMessage(user.telegramId, `${notification}`))

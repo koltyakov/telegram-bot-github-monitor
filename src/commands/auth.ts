@@ -32,9 +32,10 @@ export const authCommand = (bot: TelegramBot) => {
             if (!user) {
                 // tslint:disable-next-line:no-shadowed-variable
                 users.create({ username, token, telegramId }, (error) => {
-                    if (error && error.code === '11000') {
-                        return bot.sendMessage(telegramId, MESSAGES.USERNAME_ALREADY_REGISTERED);
-                    }
+                    // if (error && error.code === '11000') {
+                    //     return bot.sendMessage(telegramId, MESSAGES.USERNAME_ALREADY_REGISTERED);
+                    // }
+
                     if (error) {
                         return bot.sendMessage(telegramId, MESSAGES.SOMETHING_WENT_WRONG);
                     }
@@ -48,7 +49,7 @@ export const authCommand = (bot: TelegramBot) => {
                 });
             } else {
                 // tslint:disable-next-line:no-shadowed-variable
-                users.update({ username, telegramId }, { token }, (error) => {
+                users.update({ username, telegramId }, { username, telegramId, token }, (error) => {
                     if (error) {
                         return bot.sendMessage(telegramId, MESSAGES.SOMETHING_WENT_WRONG);
                     }
